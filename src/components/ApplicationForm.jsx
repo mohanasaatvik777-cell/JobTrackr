@@ -59,31 +59,36 @@ const ApplicationForm = ({ apps, onAdd }) => {
         <section className="form">
 
             <form onSubmit={onsubmitted}>
+                <div className="field">
+                    <label htmlFor="company">company</label>
+                    <input id="company" name="company" type="text" placeholder="Company name" value={com} onChange={(e) => setcom(e.target.value)} />
+                    {error.company && <p className="error">{error.company}</p>}
+                </div>
+                <div className="field">
+                    <label htmlFor="role">Role</label>
 
-                <label htmlFor="company">
-                    company
-                </label>
-                <input id="company" name="company" type="text" placeholder="Company name" value={com} onChange={(e) => setcom(e.target.value)} />
-                {error.company && <p>{error.company}</p>}
-                <label htmlFor="role">Role</label>
+                    <input id="role" name="role" value={rol} type="text" placeholder="Enter your role" onChange={(e) => setrol(e.target.value)} />
+                    {error.role && <p className="error">{error.role}</p>}
+                </div>
+                <div className="field">
+                    <label html For="applied" >Applied On</label>
+                    <input id="applied" value={applied} type="date" onChange={(e) => setapplied(e.target.value)} />
+                    {error.date && <p className="error">{error.date}</p>}
+                </div>
+                <div className="field">
+                    <label htmlFor="priority">Priority</label>
+                    <select
+                        id="priority"
+                        value={prior}
+                        onChange={(e) => setpre(e.target.value)}
+                    >
+                        <option value="High">High</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
 
-                <input id="role" name="role" value={rol} type="text" placeholder="Enter your role" onChange={(e) => setrol(e.target.value)} />
-                {error.role && <p>{error.role}</p>}
-                <label htmlFor="applied" >Applied On</label>
-                <input id="applied" value={applied} type="date" onChange={(e) => setapplied(e.target.value)} />
-                {error.date && <p>{error.date}</p>}
-                <label htmlFor="priority">Priority</label>
-                <select
-                    id="priority"
-                    value={prior}
-                    onChange={(e) => setpre(e.target.value)}
-                >
-                    <option value="High">High</option>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-
-                </select>
-                <button type="submit">Add application</button>
+                    </select>
+                </div>
+                <button type="submit" className="btn">Add application</button>
             </form>
 
         </section>

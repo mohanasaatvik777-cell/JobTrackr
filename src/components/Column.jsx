@@ -5,11 +5,13 @@ const Column = ({ status, apps, onMove, onReject, onDelete }) => {
     return (
 
         <section className="column">
-            <h2>{status} ({givenstatus.length})</h2>
+            <h2 className={`title ${status.toLowerCase()}`}>{status} ({givenstatus.length})</h2>
 
-            {givenstatus.length === 0 ? <p>Nothing here yet</p> :
-                givenstatus.map((item) => <ApplicationCard key={item.id} app={item} onMove={onMove} onReject={onReject} onDelete={onDelete} />)}
-        </section>
+            {
+                givenstatus.length === 0 ? <p className="empty">Nothing here yet</p> :
+                    givenstatus.map((item) => <ApplicationCard key={item.id} app={item} onMove={onMove} onReject={onReject} onDelete={onDelete} />)
+            }
+        </section >
     )
 }
 export default Column

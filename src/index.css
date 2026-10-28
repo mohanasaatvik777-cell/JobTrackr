@@ -5,6 +5,9 @@
 }
 
 body {
+    background-color: #F4F6FB;
+    color: #0F172A;
+    font-family: system-ui;
     margin: 0px;
 }
 
@@ -12,7 +15,7 @@ body {
     background-color: #0F172A;
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 20px 32px;
     align-items: center;
 }
 
@@ -28,4 +31,227 @@ body {
     margin: 0px;
     color: white;
     font-size: 14px;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 32px;
+    gap: 10px;
+}
+
+.form {
+    background-color: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 20px;
+
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    background-color: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 20px;
+
+}
+
+.form form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+
+}
+
+input {
+    width: 100%;
+    height: 44px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    padding: 0 12px;
+
+}
+
+select {
+    width: 100%;
+    height: 44px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    padding: 0 12px;
+
+}
+
+.error {
+    color: #B91C1C;
+    font-size: 12px;
+    margin: 0;
+}
+
+.btn {
+
+    background-color: #4F46E5;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    height: 44px;
+    padding: 0 20px;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    align-items: start;
+}
+
+.column {
+    background-color: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 12px;
+    min-height: 260px;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid #E2E8F0;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.card-actions {
+
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+}
+
+.filters input {
+    flex: 1;
+    min-width: 200px;
+
+}
+
+.filters select {
+    width: auto;
+    min-width: 160px;
+}
+
+.field {
+    display: flex;
+    align-self: end;
+    flex-direction: column;
+    gap: 6px;
+
+}
+
+label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #475569;
+}
+
+.column h2 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+}
+
+
+
+.card-company {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.card-role {
+    display: block;
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: #475569;
+}
+
+.card-application {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: #475569;
+}
+
+.card-priority {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin: 8px 0 0;
+}
+
+.high {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}
+
+.low {
+    background-color: #DCFCE7;
+    color: #166534;
+}
+
+.medium {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
+.card-actions button {
+    height: 36px;
+    padding: 0 12px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+
+
+
+}
+
+.applied {
+    background-color: #EFF6FF;
+    color: #1D4ED8;
+}
+
+.interview {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
+.offer {
+    background-color: #DCFCE7;
+    color: #166534;
+}
+
+.rejected {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}
+
+.empty {
+    text-align: center;
+    color: #475569;
+    font-size: 14px;
+    padding: 60px 0;
+}
+
+.row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

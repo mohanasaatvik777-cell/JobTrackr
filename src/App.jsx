@@ -59,24 +59,28 @@ const App = () => {
     }
     return (
         <>
-
-            <ApplicationForm apps={apps} onAdd={onAdd} />
             <Header apps={apps} />
-            <label htmlFor="search">Search</label>
-
-            <input id="search" value={search} type="text" placeholder="Search company or role" onChange={(e) => setsearch(e.target.value)} />
-            <label htmlFor="filter">Filter</label>
-            <select id='filter' value={filt} onChange={(e) => setfilt(e.target.value)}>
-                <option value="All">All</option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-
-            </select>
+            <main className='page'>
 
 
+                <ApplicationForm apps={apps} onAdd={onAdd} />
+                <section className="filters">
+                    <label htmlFor="search">Search</label>
 
-            <Board apps={visibleApps} onMove={movedclicked} onReject={rejectedclicked} onDelete={deletehandler} />
+                    <input id="search" value={search} type="text" placeholder="Search company or role" onChange={(e) => setsearch(e.target.value)} />
+                    <label htmlFor="filter">Filter</label>
+                    <select id='filter' value={filt} onChange={(e) => setfilt(e.target.value)}>
+                        <option value="All">All</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+
+                    </select>
+
+                </section>
+
+                <Board apps={visibleApps} onMove={movedclicked} onReject={rejectedclicked} onDelete={deletehandler} />
+            </main>
         </>
 
     )

@@ -13,7 +13,7 @@ const ApplicationCard = ({ app, onMove, onReject, onDelete }) => {
             </div>
             <div className="card-actions">
                 {(app.status !== "Offer" && app.status !== "Rejected") && <button type="button" onClick={() => onMove(app.id)}><ArrowRight size={18} /></button>}
-                <button type="button" onClick={() => onReject(app.id)}><X size={18} /></button>
+                {app.status !== "Rejected" && <button type="button" onClick={() => onReject(app.id)}><X size={18} /></button>}
                 <button type="button" onClick={() => onDelete(app.id)}><Trash2 size={18} /></button>
             </div>
         </article>

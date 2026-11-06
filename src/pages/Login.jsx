@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Briefcase, LayoutDashboard, Search, BarChart3, Mail, Lock } from 'lucide-react'
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
+import { useNavigate, Link, useLocation, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 
 const Login = () => {
@@ -52,19 +52,19 @@ const Login = () => {
                         <label htmlFor="email">Email</label>
                         <div className="input-wrap">
                             <Mail size={17} />
-                            <input id="email" type="email" name="email" value={email} onChange={(e) => setemail(e.target.value)} placeholder="name@company.com" />
+                            <input id="email" type="email" name="email" value={email} onChange={(e) => setemail(e.target.value)} placeholder="name@company.com" required />
                         </div>
 
                         <label htmlFor='password'>Password</label>
                         <div className="input-wrap">
-                            <Mail size={17} />
-                            <input id="password" type="password" value={password} onChange={(e) => setpassword(e.target.value)} placeholder="Enter your password" />
+                            <Lock size={17} />
+                            <input id="password" type="password" value={password} onChange={(e) => setpassword(e.target.value)} placeholder="Enter your password" required />
                         </div>
 
                         <button disabled={loading} type="submit">{loading ? "Logging in..." : "Log in"}</button>
                     </form>
 
-                    <p>No account yet? Register</p>
+                    <p>No account yet? <Link to="/register">Register</Link></p>
                 </div>
             </div>
         </div>

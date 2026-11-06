@@ -1,10 +1,31 @@
 import { useState } from 'react'
 import { Briefcase, LayoutDashboard, Search, BarChart3, Mail, Lock } from 'lucide-react'
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext.jsx'
+
 const Login = () => {
+    const { login } = useAuth()
+    const navigate = useNavigate()
+    const location = useLocation()
+    const [searchParams] = useSearchParams()
+    const [error, setError] = useState("")
+    const [loading, setloading] = useState(false)
+    const expired = searchParams.get("expired") === 1
+
     const [email, setemail] = useState("")
     const [password, setpassword] = useState("")
-    const onsubmitter = (event) => {
+    const onsubmitter = async (event) => {
         event.preventDefault()
+        setloading(true)
+        setError("")
+        try {
+            await login({ email, password })
+            navigate(location.state?.from || "/")
+        } catch (err) {
+            setError(err.response?.data?.message || "Login failed")
+        } finally {
+            setloading(false)
+        }
 
     }
     return (
@@ -26,6 +47,8 @@ const Login = () => {
                     <h1>Welcome back</h1>
                     <p className="login-sub">Log in to your account</p>
                     <form onSubmit={onsubmitter}>
+                        {expired && <p className="login-notice">Your session has expired</p>}
+                        {error && <p className="login-error">{error}</p>}
                         <label htmlFor="email">Email</label>
                         <div className="input-wrap">
                             <Mail size={17} />
@@ -38,7 +61,7 @@ const Login = () => {
                             <input id="password" type="password" value={password} onChange={(e) => setpassword(e.target.value)} placeholder="Enter your password" />
                         </div>
 
-                        <button type="submit">Log in</button>
+                        <button disabled={loading} type="submit">{loading ? "Logging in..." : "Log in"}</button>
                     </form>
 
                     <p>No account yet? Register</p>

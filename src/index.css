@@ -425,3 +425,28 @@ label {
 .input-wrap:focus-within svg {
     color: #4f46e5;
 }
+
+.login-card .login-notice {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    text-align: left;
+    margin: 0 0 12px;
+}
+
+.login-card .login-error {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    text-align: left;
+    margin: 0 0 12px;
+}
+
+.login-card button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

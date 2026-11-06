@@ -1,10 +1,11 @@
 //import ApplicationCard from '../components/ApplicationCard.jsx'
+import { getApplications } from '../api/application.js'
 import ApplicationForm from '../components/ApplicationForm.jsx'
 import Board from '../components/Board.jsx'
 //import Column from '../components/Column.jsx'
 import Header from '../components/Header.jsx'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 const myjobs = [{ id: 1, company: "Google", role: "SDE Intern", status: "Applied", appliedOn: "2026-10-12", priority: "High" },
 { id: 2, company: "Zoho", role: "Frontend intern", status: "Applied", appliedOn: "2026-10-18", priority: "Medium" },
 { id: 3, company: "Swiggy", role: "React Developer", status: "Applied", appliedOn: "2026-08-12", priority: "Low" },
@@ -16,6 +17,8 @@ const Home = () => {
     const [apps, setApp] = useState(myjobs)
     const [search, setsearch] = useState("")
     const [filt, setfilt] = useState("All")
+    const [loading, setloading] = useState("")
+    const [error, seterror] = useState("")
     const movedclicked = (id) => {
         const changedaftermoved = apps.map((i) => i.id !== id ? i :
             {
@@ -57,6 +60,21 @@ const Home = () => {
         formfile.status = "Applied"
         setApp([...apps, formfile])
     }
+    const loadApplications = async () => {
+        setloading(true)
+        seterror("")
+        try {
+            const result = await getApplications({ limiit: 100 })
+            result.data
+        } catch (err) {
+            seterror(err.response?.data?.message || "Could not load applicatoins")
+        } finally {
+            setloading(false)
+        }
+    }
+    useEffect(() => {
+        loadApplications()
+    }, [])
     return (
         <>
             <Header apps={apps} />

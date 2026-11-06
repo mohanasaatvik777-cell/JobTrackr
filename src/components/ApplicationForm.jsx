@@ -71,7 +71,7 @@ const ApplicationForm = ({ apps, onAdd }) => {
                     {error.role && <p className="error">{error.role}</p>}
                 </div>
                 <div className="field">
-                    <label html For="applied" >Applied On</label>
+                    <label htmlFor="applied" >Applied On</label>
                     <input id="applied" value={applied} type="date" onChange={(e) => setapplied(e.target.value)} />
                     {error.date && <p className="error">{error.date}</p>}
                 </div>

@@ -2,6 +2,7 @@ import ApplicationCard from "./ApplicationCard.jsx"
 
 const Column = ({ status, apps, onMove, onReject, onDelete }) => {
     const givenstatus = apps.filter((f) => f.status === status)
+
     return (
 
         <section className="column">
@@ -15,3 +16,4 @@ const Column = ({ status, apps, onMove, onReject, onDelete }) => {
     )
 }
 export default Column
+

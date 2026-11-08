@@ -1,6 +1,6 @@
 import client from './client.js'
 export const getApplications = async (params) => {
-    const response = await client.get("/applications", { params })
+    const response = await client.get("/applications", { params: { ...params, limit: 12 } })
     return response.data
 }
 export const createApplication = async (data) => {

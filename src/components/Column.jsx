@@ -10,7 +10,7 @@ const Column = ({ status, apps, onMove, onReject, onDelete }) => {
 
             {
                 givenstatus.length === 0 ? <p className="empty">Nothing here yet</p> :
-                    givenstatus.map((item) => <ApplicationCard key={item.id} app={item} onMove={onMove} onReject={onReject} onDelete={onDelete} />)
+                    givenstatus.map((item) => <ApplicationCard key={item._id} app={item} onMove={onMove} onReject={onReject} onDelete={onDelete} />)
             }
         </section >
     )

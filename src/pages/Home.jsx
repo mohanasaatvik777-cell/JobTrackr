@@ -1,10 +1,10 @@
 //import ApplicationCard from '../components/ApplicationCard.jsx'
-import { getApplications } from '../api/application.js'
+import { createApplication, deleteApplication, getApplications, updateApplication } from '../api/application.js'
 import ApplicationForm from '../components/ApplicationForm.jsx'
 import Board from '../components/Board.jsx'
 //import Column from '../components/Column.jsx'
 import Header from '../components/Header.jsx'
-
+import { useSearchParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 const myjobs = [{ id: 1, company: "Google", role: "SDE Intern", status: "Applied", appliedOn: "2026-10-12", priority: "High" },
 { id: 2, company: "Zoho", role: "Frontend intern", status: "Applied", appliedOn: "2026-10-18", priority: "Medium" },
@@ -14,58 +14,94 @@ const myjobs = [{ id: 1, company: "Google", role: "SDE Intern", status: "Applied
 { id: 6, company: "Atlassian", role: "Web Intern", status: "Offer", appliedOn: "2026-10-12", priority: "High" }
 ]
 const Home = () => {
-    const [apps, setApp] = useState(myjobs)
-    const [search, setsearch] = useState("")
-    const [filt, setfilt] = useState("All")
-    const [loading, setloading] = useState("")
+    const [searchparams, setsearch] = useSearchParams()
+
+    const [apps, setApp] = useState([])
+    //const [search, setsearch] = useState("")
+    // const [filt, setfilt] = useState("All")
+    const [loading, setloading] = useState(true)
     const [error, seterror] = useState("")
-    const movedclicked = (id) => {
-        const changedaftermoved = apps.map((i) => i.id !== id ? i :
-            {
-                ...i, status:
-                    i.status === "Applied" ? "Interview"
-                        : i.status === "Interview" ? "Offer"
-                            : i.status,
-            })
+    const search = searchparams.get("search") || ""
+    const status = searchparams.get("status") || ""
+    const page = Number(searchparams.get("page")) || 1
 
-        setApp(changedaftermoved)
+    const movedclicked = async (id) => {
+        const list = ["Applied", "Interview", "Offer"]
+        const card = apps.find((a) => a._id === id)
+
+
+        const index = list.indexOf(card.status) + 1
+        try {
+            if (list[index] === undefined) {
+                return
+            }
+            await updateApplication(id, { status: list[index] })
+            await loadApplications()
+        } catch (err) {
+            seterror(err.response?.data?.message || "Could not move")
+        }
+
     }
-    const rejectedclicked = (id) => {
+    const rejectedclicked = async (id) => {
+        try {
+            await updateApplication(id, { status: "Rejected" })
+            await loadApplications()
+        } catch (err) {
+            seterror(err.response?.data?.message || "Could not reject")
+        }
 
-        const rejectedclicks = apps.map((r) => r.id !== id ? r : {
-            ...r, status: "Rejected"
-        })
-        setApp(rejectedclicks)
 
 
     }
-    const visibleApps = apps.filter((fil) => {
-        const text = search.trim().toLowerCase();
-        const matchedboth = fil.role.toLowerCase().includes(text) || fil.company.toLowerCase().includes(text)
-        const matchpriority = filt === 'All' || fil.priority === filt
-        return matchedboth && matchpriority
-    })
+    // const visibleApps = apps.filter((fil) => {
+    //     const text = search.trim().toLowerCase();
+    //     const matchedboth = fil.role.toLowerCase().includes(text) || fil.company.toLowerCase().includes(text)
+    //     const matchpriority = status === 'All' || fil.priority === status || status === ""
+    //     return matchedboth && matchpriority
+    // })
 
     //apps.push(x) and setApps(x) does not re-renders: The apps.push(x) mutates a same array in- place like changeing the contents or modifying the existing box
     //and setApps(x) it is also keep the same memeory reference  means using a same memory box not using a new box again
 
-    const deletehandler = (id) => {
-        if (window.confirm(`You want to remove the ${apps.filter((a) => a.id === id)[0].company}`)) {
-            const deleteclicked = apps.filter((d) => d.id !== id)
-            setApp(deleteclicked)
+    const deletehandler = async (id) => {
+        try {
+            if (window.confirm(`You want to remove the ${apps.filter((a) => a._id === id)[0].company}`)) {
+                await deleteApplication(id)
+                await loadApplications()
+            }
+        } catch (err) {
+            seterror(err.response?.data?.message || "Could not delete")
+        }
+
+
+    }
+    const onAdd = async (formfile) => {
+        try {
+            await createApplication(formfile)
+            await loadApplications()
+        } catch (err) {
+            seterror(err.response?.data?.message || "Could not add application")
         }
 
     }
-    const onAdd = (formfile) => {
-        formfile.status = "Applied"
-        setApp([...apps, formfile])
+    const updateParams = (key, value) => {
+        const next = new URLSearchParams(searchparams)
+        if (value === "") {
+            next.delete(key)
+        } else {
+            next.set(key, value)
+        }
+        if (key === "search" || key === "status") {
+            next.set("page", "1")
+        }
+        setsearch(next)
     }
     const loadApplications = async () => {
         setloading(true)
         seterror("")
         try {
-            const result = await getApplications({ limiit: 100 })
-            result.data
+            const result = await getApplications({ search, status, page })
+            setApp(result.data)
         } catch (err) {
             seterror(err.response?.data?.message || "Could not load applicatoins")
         } finally {
@@ -74,7 +110,7 @@ const Home = () => {
     }
     useEffect(() => {
         loadApplications()
-    }, [])
+    }, [search, status, page])
     return (
         <>
             <Header apps={apps} />
@@ -85,19 +121,20 @@ const Home = () => {
                 <section className="filters">
                     <label htmlFor="search">Search</label>
 
-                    <input id="search" value={search} type="text" placeholder="Search company or role" onChange={(e) => setsearch(e.target.value)} />
+                    <input id="search" value={search} type="text" placeholder="Search company or role" onChange={(e) => updateParams("search", e.target.value)} />
                     <label htmlFor="filter">Filter</label>
-                    <select id='filter' value={filt} onChange={(e) => setfilt(e.target.value)}>
-                        <option value="All">All</option>
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
+                    <select id='filter' value={status} onChange={(e) => updateParams("status", e.target.value)}>
+                        <option value="">All</option>
+                        <option value="Applied">Applied</option>
+                        <option value="Interview">Interview</option>
+                        <option value="Offer">Offer</option>
+                        <option value="Rejected">Rejected</option>
 
                     </select>
 
                 </section>
 
-                <Board apps={visibleApps} onMove={movedclicked} onReject={rejectedclicked} onDelete={deletehandler} />
+                <Board apps={apps} onMove={movedclicked} onReject={rejectedclicked} onDelete={deletehandler} />
             </main>
         </>
 

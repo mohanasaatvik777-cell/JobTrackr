@@ -7,6 +7,7 @@ import Header from '../components/Header.jsx'
 import { useSearchParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
+
 // const myjobs = [{ id: 1, company: "Google", role: "SDE Intern", status: "Applied", appliedOn: "2026-10-12", priority: "High" },
 // { id: 2, company: "Zoho", role: "Frontend intern", status: "Applied", appliedOn: "2026-10-18", priority: "Medium" },
 // { id: 3, company: "Swiggy", role: "React Developer", status: "Applied", appliedOn: "2026-08-12", priority: "Low" },
